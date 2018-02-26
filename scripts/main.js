@@ -44,18 +44,20 @@ function getThumbnailsArray() {
   return thumbnailsArray;
 }
 
+function trackClickedThumbnailIndexHandler(index){
+  "use strict";
+  return function(){
+    CLICKED_THUMBNAIL_INDEX = index;
+  };
+}
+
 function initializeEvents() {
   "use strict";
   var thumbnails = getThumbnailsArray();
   thumbnails.forEach(addThumbClickHandler);
 
-  for (var j = 0; j < thumbnails.length; j++) {
-    /* Self invoking function will track the index of the clicked thumbnail*/
-    (function(index) {
-      thumbnails[index].addEventListener("click", function() {
-        CLICKED_THUMBNAIL_INDEX = index;
-      });
-    })(j);
+  for(var i=0; i < thumbnails.length; i++){
+    thumbnails[i].addEventListener("click", trackClickedThumbnailIndexHandler(i));
   }
 
   var nextButton = document.querySelector(NEXT_IMAGE_SELECTOR);
